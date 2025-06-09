@@ -43,12 +43,15 @@ It can be easily used from almost any programming language.
 
 %package devel
 Summary:        Development files for %name
+Requires:       %name = %version
 
 %description devel
 Development files for TDLib
 
 %package static
 Summary:        Static libraries for %name
+Requires:       %name = %version
+Requires:       %name-devel = %version
 
 %description static
 Static libraries for %name
