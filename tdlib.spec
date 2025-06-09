@@ -50,7 +50,6 @@ Development files for TDLib
 
 %package static
 Summary:        Static libraries for %name
-Requires:       %name = %version
 Requires:       %name-devel = %version
 
 %description static
