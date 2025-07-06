@@ -5,14 +5,14 @@
 
 # use the commit tag when they update the version in README.md because
 # there doesn't appear to be anyone creating tags anymore
-%define commit_tag e894536b2f46caad93f997448d2daff9431b19dd
+%define commit_tag 6c8bfbb520fc0d33d0e865736c80ee9a0e5b46c0
 
 # When using a commit_tag (i.e. not nil) add a commit date 
 # decoration ~0.yyyyMMdd. to Version number 
-%define commit_date ~0.20250527
+%define commit_date ~0.20250707
 
 Name:           tdlib
-Version:        1.8.50%{?commit_date}
+Version:        1.8.51%{?commit_date}
 Release:        1
 Summary:        Cross-platform library for building Telegram clients
 Group:          Development
@@ -27,7 +27,8 @@ Source0:        https://github.com/%name/td/archive/v%{version}.tar.gz#/%{name}-
 %endif
 
 BuildSystem:    cmake
-BuildOption:    -DCMAKE_BUILD_TYPE=Release -DTD_ENABLE_JNI:BOOL=OFF -DTD_ENABLE_DOTNET:BOOL=OFF
+BuildOption:    -DTD_ENABLE_JNI:BOOL=OFF
+BuildOption:	-DTD_ENABLE_DOTNET:BOOL=OFF
 
 # mitigate the incorrect property set here (probably a conditional for the IPO check is more ideal):
 # https://github.com/tdlib/td/blob/e894536b2f46caad93f997448d2daff9431b19dd/CMakeLists.txt#L45
@@ -68,4 +69,3 @@ Static libraries for %name
 %{_libdir}/*.so
 %{_libdir}/cmake/Td
 %{_libdir}/pkgconfig/td*.pc
-
