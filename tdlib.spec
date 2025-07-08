@@ -9,11 +9,11 @@
 
 # When using a commit_tag (i.e. not nil) add a commit date 
 # decoration ~0.yyyyMMdd. to Version number 
-%define commit_date ~0.20250707
+%define commit_date ~0.20250707.
 
 Name:           tdlib
-Version:        1.8.51%{?commit_date}
-Release:        1
+Version:        1.8.51
+Release:        %{?commit_date}2
 Summary:        Cross-platform library for building Telegram clients
 Group:          Development
 License:        BSL-1.0
