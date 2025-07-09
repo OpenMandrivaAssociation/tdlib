@@ -8,12 +8,12 @@
 %define commit_tag 6c8bfbb520fc0d33d0e865736c80ee9a0e5b46c0
 
 # When using a commit_tag (i.e. not nil) add a commit date 
-# decoration ~0.yyyyMMdd. to Version number 
-%define commit_date ~0.20250707.
+# decoration ~0.yyyyMMdd. to Release number 
+%define commit_date ~0.20250707
 
 Name:           tdlib
 Version:        1.8.51
-Release:        %{?commit_date}2
+Release:        %{?commit_date:%{commit_date}.}2
 Summary:        Cross-platform library for building Telegram clients
 Group:          Development
 License:        BSL-1.0
@@ -21,7 +21,7 @@ URL:            https://core.telegram.org/tdlib
 
 # change the source URL depending on if the package is a release version or a git version
 %if "%{commit_tag}" != "%{nil}"
-Source0:        https://github.com/%name/td/archive/%{commit_tag}.tar.gz#/%name-%version.tar.gz
+Source0:        https://github.com/%name/td/archive/%{commit_tag}.tar.gz#/%name-%version%{commit_date}.tar.gz
 %else
 Source0:        https://github.com/%name/td/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 %endif
