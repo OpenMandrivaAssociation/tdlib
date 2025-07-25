@@ -56,6 +56,19 @@ Requires:       %name-devel = %version
 %description static
 Static libraries for %name
 
+%conf -a
+export CMAKE_BUILD_DIR=e2e
+%cmake -G Ninja -DTD_E2E_ONLY:BOOL=ON ..
+
+%build -a
+cd e2e
+%ninja_build
+
+%install -p
+cd e2e
+%ninja_install
+cd ..
+
 %files
 %license LICENSE_1_0.txt
 %doc  README.md
@@ -68,4 +81,5 @@ Static libraries for %name
 %{_includedir}/td
 %{_libdir}/*.so
 %{_libdir}/cmake/Td
+%{_libdir}/cmake/tde2e
 %{_libdir}/pkgconfig/td*.pc
