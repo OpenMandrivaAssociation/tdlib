@@ -5,11 +5,11 @@
 
 # use the commit tag when they update the version in README.md because
 # there doesn't appear to be anyone creating tags anymore
-%define commit_tag 6d74326c5ce53aeb52496f157f0080d9b8515970
+%define commit_tag 369ee922b45bfa7e8da357e4d62e93925862d86d
 
 # When using a commit_tag (i.e. not nil) add a commit date 
 # decoration ~0.yyyyMMdd. to Version number 
-%define commit_date ~0.20250721
+%define commit_date ~0.20250919
 
 Name:           tdlib
 Version:        1.8.51
