@@ -1,0 +1,106 @@
+diff -up tdlib-1.8.51~20250919/tde2e/td/e2e/e2e_api.h.1~ tdlib-1.8.51~20250919/tde2e/td/e2e/e2e_api.h
+--- tdlib-1.8.51~20250919/tde2e/td/e2e/e2e_api.h.1~	2025-09-19 15:01:18.000000000 +0200
++++ tdlib-1.8.51~20250919/tde2e/td/e2e/e2e_api.h	2025-09-25 21:23:08.036193530 +0200
+@@ -109,34 +109,34 @@ Result<Ok> set_log_verbosity_level(int l
+ // Keys management
+ // private keys will stay inside the library when it is possible
+ // all keys are stored only in memory and should be created or imported before usage
+-Result<PrivateKeyId> key_generate_private_key();
+-Result<PrivateKeyId> key_generate_temporary_private_key();
+-Result<SymmetricKeyId> key_derive_secret(PrivateKeyId key_id, Slice tag);
+-Result<SymmetricKeyId> key_from_bytes(SecureSlice secret);
+-Result<Bytes> key_to_encrypted_private_key(PrivateKeyId key_id, SymmetricKeyId secret_id);
+-Result<PrivateKeyId> key_from_encrypted_private_key(Slice encrypted_key, SymmetricKeyId secret_id);
+-Result<PublicKeyId> key_from_public_key(Slice public_key);
+-Result<SymmetricKeyId> key_from_ecdh(PrivateKeyId key_id, PublicKeyId other_public_key_id);
+-Result<PublicKey> key_to_public_key(PrivateKeyId key_id);
+-Result<SecureBytes> key_to_words(PrivateKeyId key_id);
+-Result<PrivateKeyId> key_from_words(SecureSlice words);
+-Result<Int512> key_sign(PrivateKeyId key, Slice data);
+-Result<Ok> key_destroy(AnyKeyId key_id);
+-Result<Ok> key_destroy_all();
++Result<PrivateKeyId> __attribute__((visibility("default"))) key_generate_private_key();
++Result<PrivateKeyId> __attribute__((visibility("default"))) key_generate_temporary_private_key();
++Result<SymmetricKeyId> __attribute__((visibility("default"))) key_derive_secret(PrivateKeyId key_id, Slice tag);
++Result<SymmetricKeyId> __attribute__((visibility("default"))) key_from_bytes(SecureSlice secret);
++Result<Bytes> __attribute__((visibility("default"))) key_to_encrypted_private_key(PrivateKeyId key_id, SymmetricKeyId secret_id);
++Result<PrivateKeyId> __attribute__((visibility("default"))) key_from_encrypted_private_key(Slice encrypted_key, SymmetricKeyId secret_id);
++Result<PublicKeyId> __attribute__((visibility("default"))) key_from_public_key(Slice public_key);
++Result<SymmetricKeyId> __attribute__((visibility("default"))) key_from_ecdh(PrivateKeyId key_id, PublicKeyId other_public_key_id);
++Result<PublicKey> __attribute__((visibility("default"))) key_to_public_key(PrivateKeyId key_id);
++Result<SecureBytes> __attribute__((visibility("default"))) key_to_words(PrivateKeyId key_id);
++Result<PrivateKeyId> __attribute__((visibility("default"))) key_from_words(SecureSlice words);
++Result<Int512> __attribute__((visibility("default"))) key_sign(PrivateKeyId key, Slice data);
++Result<Ok> __attribute__((visibility("default"))) key_destroy(AnyKeyId key_id);
++Result<Ok> __attribute__((visibility("default"))) key_destroy_all();
+ 
+ // Used to encrypt key between processes, secret_id must be generated with key_from_ecdh
+-Result<Bytes> key_to_encrypted_private_key_internal(PrivateKeyId key_id, SymmetricKeyId secret_id);
+-Result<PrivateKeyId> key_from_encrypted_private_key_internal(Slice encrypted_key, SymmetricKeyId secret_id);
++Result<Bytes> __attribute__((visibility("default"))) key_to_encrypted_private_key_internal(PrivateKeyId key_id, SymmetricKeyId secret_id);
++Result<PrivateKeyId> __attribute__((visibility("default"))) key_from_encrypted_private_key_internal(Slice encrypted_key, SymmetricKeyId secret_id);
+ 
+-Result<EncryptedMessageForMany> encrypt_message_for_many(const std::vector<SymmetricKeyId> &key_ids,
++Result<EncryptedMessageForMany> __attribute__((visibility("default"))) encrypt_message_for_many(const std::vector<SymmetricKeyId> &key_ids,
+                                                          SecureSlice message);
+ // keeps encrypted_message empty in result
+-Result<EncryptedMessageForMany> re_encrypt_message_for_many(SymmetricKeyId decrypt_key_id,
++Result<EncryptedMessageForMany> __attribute__((visibility("default"))) re_encrypt_message_for_many(SymmetricKeyId decrypt_key_id,
+                                                             const std::vector<SymmetricKeyId> &encrypt_key_ids,
+                                                             Slice encrypted_header, Slice encrypted_message);
+-Result<SecureBytes> decrypt_message_for_many(SymmetricKeyId key_id, Slice encrypted_header, Slice encrypted_message);
+-Result<Bytes> encrypt_message_for_one(SymmetricKeyId key_id, SecureSlice message);
+-Result<SecureBytes> decrypt_message_for_one(SymmetricKeyId key_id, Slice encrypted_message);
++Result<SecureBytes> __attribute__((visibility("default"))) decrypt_message_for_many(SymmetricKeyId key_id, Slice encrypted_header, Slice encrypted_message);
++Result<Bytes> __attribute__((visibility("default"))) encrypt_message_for_one(SymmetricKeyId key_id, SecureSlice message);
++Result<SecureBytes> __attribute__((visibility("default"))) decrypt_message_for_one(SymmetricKeyId key_id, Slice encrypted_message);
+ 
+ // Utilities for secret key verification/transfer via qr (or any other alternative channel)
+ // Requires:
+@@ -155,30 +155,30 @@ Result<SecureBytes> decrypt_message_for_
+ //  - Verification of other person's public key
+ //  - Contact sharing
+ //
+-Result<HandshakeId> handshake_create_for_bob(UserId bob_user_id, PrivateKeyId bob_private_key_id);
+-Result<HandshakeId> handshake_create_for_alice(UserId alice_user_id, PrivateKeyId alice_private_key_id,
++Result<HandshakeId> __attribute__((visibility("default"))) handshake_create_for_bob(UserId bob_user_id, PrivateKeyId bob_private_key_id);
++Result<HandshakeId> __attribute__((visibility("default"))) handshake_create_for_alice(UserId alice_user_id, PrivateKeyId alice_private_key_id,
+                                                UserId bob_user_id, const PublicKey &bob_public_key, Slice start);
+ 
+-Result<Bytes> handshake_bob_send_start(HandshakeId bob_handshake_id);
+-Result<Bytes> handshake_alice_send_accept(HandshakeId alice_handshake_id);
+-Result<Bytes> handshake_bob_receive_accept_send_finish(HandshakeId bob_handshake_id, UserId alice_id,
++Result<Bytes> __attribute__((visibility("default"))) handshake_bob_send_start(HandshakeId bob_handshake_id);
++Result<Bytes> __attribute__((visibility("default"))) handshake_alice_send_accept(HandshakeId alice_handshake_id);
++Result<Bytes> __attribute__((visibility("default"))) handshake_bob_receive_accept_send_finish(HandshakeId bob_handshake_id, UserId alice_id,
+                                                        const PublicKey &alice_public_key, Slice accept);
+-Result<Ok> handshake_alice_receive_finish(HandshakeId alice_handshake_id, Slice finish);
+-Result<SymmetricKeyId> handshake_get_shared_key_id(HandshakeId handshake_id);
+-Result<Ok> handshake_destroy(HandshakeId handshake_id);
+-Result<Ok> handshake_destroy_all();
++Result<Ok> __attribute__((visibility("default"))) handshake_alice_receive_finish(HandshakeId alice_handshake_id, Slice finish);
++Result<SymmetricKeyId> __attribute__((visibility("default"))) handshake_get_shared_key_id(HandshakeId handshake_id);
++Result<Ok> __attribute__((visibility("default"))) handshake_destroy(HandshakeId handshake_id);
++Result<Ok> __attribute__((visibility("default"))) handshake_destroy_all();
+ 
+ // Helper to get QR-code identifier
+-Result<Bytes> handshake_start_id(Slice start);
++Result<Bytes> __attribute__((visibility("default"))) handshake_start_id(Slice start);
+ 
+ // There is wrapper for login
+-Result<LoginId> login_create_for_bob();
+-Result<Bytes> login_bob_send_start(LoginId bob_login_id);
+-Result<Bytes> login_create_for_alice(UserId alice_user_id, PrivateKeyId alice_private_key_id, Slice start);
+-Result<PrivateKeyId> login_finish_for_bob(LoginId bob_login_id, UserId alice_user_id, const PublicKey &alice_public_key,
++Result<LoginId> __attribute__((visibility("default"))) login_create_for_bob();
++Result<Bytes> __attribute__((visibility("default"))) login_bob_send_start(LoginId bob_login_id);
++Result<Bytes> __attribute__((visibility("default"))) login_create_for_alice(UserId alice_user_id, PrivateKeyId alice_private_key_id, Slice start);
++Result<PrivateKeyId> __attribute__((visibility("default"))) login_finish_for_bob(LoginId bob_login_id, UserId alice_user_id, const PublicKey &alice_public_key,
+                                           Slice data);
+-Result<Ok> login_destroy(LoginId login_id);
+-Result<Ok> login_destroy_all();
++Result<Ok> __attribute__((visibility("default"))) login_destroy(LoginId login_id);
++Result<Ok> __attribute__((visibility("default"))) login_destroy_all();
+ 
+ // Personal info
+ 

@@ -1,4 +1,9 @@
-%global debug_package %{nil} 
+# Workaround for libtde2e.a containing a file named "//" that can't be extracted
+# and then repackaged
+%define dont_fix_lto_intermediates_in_static_libraries 1
+
+# Because of the above, let's not generate LTO intermediates for the time being
+%define _disable_lto 1
 
 # set to nil when packaging a release, 
 # or the long commit tag for the specific git branch
@@ -8,12 +13,12 @@
 %define commit_tag 369ee922b45bfa7e8da357e4d62e93925862d86d
 
 # When using a commit_tag (i.e. not nil) add a commit date 
-# decoration ~0.yyyyMMdd. to Version number 
-%define commit_date ~0.20250919
+# decoration ~yyyyMMdd. to Version number 
+%define commit_date ~20250919
 
 Name:           tdlib
-Version:        1.8.51
-Release:        %{?commit_date:%{commit_date}.}1
+Version:        1.8.51%{commit_date}
+Release:        1
 Summary:        Cross-platform library for building Telegram clients
 Group:          Development
 License:        BSL-1.0
@@ -21,12 +26,13 @@ URL:            https://core.telegram.org/tdlib
 
 # change the source URL depending on if the package is a release version or a git version
 %if "%{commit_tag}" != "%{nil}"
-Source0:        https://github.com/%name/td/archive/%{commit_tag}.tar.gz#/%name-%version%{commit_date}.tar.gz
+Source0:        https://github.com/%name/td/archive/%{commit_tag}.tar.gz#/%{name}-%{version}.tar.gz
 %else
 Source0:        https://github.com/%name/td/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 %endif
 
 BuildSystem:    cmake
+BuildOption:	-DCMAKE_CXX_STANDARD=17
 BuildOption:    -DTD_ENABLE_JNI:BOOL=OFF
 BuildOption:	-DTD_ENABLE_DOTNET:BOOL=OFF
 
@@ -41,6 +47,9 @@ BuildRequires:  pkgconfig(zlib)
 %description
 TDLib (Telegram Database library) is a cross-platform library for building Telegram clients. 
 It can be easily used from almost any programming language.
+
+%patchlist
+tdlib-symbol-visibility.patch
 
 %package devel
 Summary:        Development files for %name
@@ -71,7 +80,7 @@ cd ..
 
 %files
 %license LICENSE_1_0.txt
-%doc  README.md
+%doc README.md
 %{_libdir}/libtd*.so.*
 
 %files static
